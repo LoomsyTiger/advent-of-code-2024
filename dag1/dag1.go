@@ -61,7 +61,6 @@ func main() {
 		rightValue := rightSlice[i]
 		diff := diff(leftValue, rightValue)
 		distances = append(distances, diff)
-		fmt.Println("Diff: ", diff)
 	}
 
 	summedDistances := sum(distances)
