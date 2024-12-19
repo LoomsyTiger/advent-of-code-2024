@@ -5,6 +5,24 @@ import "os"
 import "bufio"
 import "strings"
 import "slices"
+import "strconv"
+
+func diff(a, b int) int {
+	if a < b {
+		return b - a 
+	}
+	return a - b
+}
+
+func sum(nums []int) int {
+	total := 0
+
+	for _, num := range nums {
+		total += num
+	}
+
+	return total
+}
 
 func main() {
 	file, err := os.Open("input.txt")
@@ -13,8 +31,8 @@ func main() {
 	}
 	defer file.Close()
 
-	leftSlice := []string{}
-	rightSlice := []string{}
+	leftSlice := []int{}
+	rightSlice := []int{}
 	
 	r := bufio.NewReader(file)
 	for {
@@ -22,16 +40,31 @@ func main() {
 		if len(line) > 0 {
 			lineString := string(line)
 			split := strings.Split(lineString, "   ")
-			leftSlice = append(leftSlice, split[0])
-			rightSlice = append(rightSlice, split[1])
+			splitLeft, err := strconv.Atoi(split[0])
+			splitRight, err := strconv.Atoi(split[1])
+			if err != nil {
+				fmt.Println("Error: ", err)
+			}
+			leftSlice = append(leftSlice, splitLeft)
+			rightSlice = append(rightSlice, splitRight)
 			slices.Sort(leftSlice)
 			slices.Sort(rightSlice)
-			fmt.Println("Left: ", leftSlice)
-			fmt.Println("Right: ", rightSlice)
 		}
 		if err != nil {
 			fmt.Println(err)
 			break
 		}
 	}
+
+	distances := []int{}
+	for i, leftValue := range leftSlice {
+		rightValue := rightSlice[i]
+		diff := diff(leftValue, rightValue)
+		distances = append(distances, diff)
+		fmt.Println("Diff: ", diff)
+	}
+
+	summedDistances := sum(distances)
+
+	fmt.Println("Summed distances: ", summedDistances)
 }
