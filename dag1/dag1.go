@@ -6,6 +6,7 @@ import "bufio"
 import "strings"
 import "slices"
 import "strconv"
+import "sort"
 
 func diff(a, b int) int {
 	if a < b {
@@ -57,13 +58,19 @@ func main() {
 	}
 
 	distances := []int{}
+	similarityList := []int{}
 	for i, leftValue := range leftSlice {
 		rightValue := rightSlice[i]
 		diff := diff(leftValue, rightValue)
 		distances = append(distances, diff)
+
+// gebruik een for loop om te controleren hoe veel waarden in de andere lijst matchen. bij een match, doe i++. eindwaarde van i is het aantal matches
+
+		similarityList = append(similarityList, similarity)
 	}
 
 	summedDistances := sum(distances)
-
 	fmt.Println("Summed distances: ", summedDistances)
+
+
 }
